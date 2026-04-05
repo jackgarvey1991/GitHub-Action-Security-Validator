@@ -156,7 +156,13 @@ def _to_sarif(findings):
             }
         results.append({
             "ruleId": rid,
-            "level": f["severity"].lower() if f["severity"] != "CRITICAL" else "error",
+            "level": {
+                "CRITICAL": "error",
+                "HIGH": "error", 
+                "MEDIUM": "warning",
+                "LOW": "note",
+                "INFO": "note",
+            }.get(f["severity"], "warning"),
             "message": {"text": f["message"]},
             "locations": [{
                 "physicalLocation": {
