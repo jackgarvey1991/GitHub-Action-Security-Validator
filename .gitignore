@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.installed.cfg
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.whl
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.coveragerc
+
+# mypy / type checkers
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Distribution
+*.tar.gz
+*.zip
+
+# Secrets (never commit these)
+.env
+.env.*
+secrets.yml
+secrets.yaml

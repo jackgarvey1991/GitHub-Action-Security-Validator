@@ -1,0 +1,36 @@
+# Test fixture: CLEAN workflow - follows security best practices
+name: CI (Secure)
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Least-privilege permissions
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Pinned to full commit SHA
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2f  # v5.3.0
+        with:
+          python-version: "3.12"
+
+      # Safe: uses env var, not direct expression interpolation
+      - name: Print PR info
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: echo "PR title is $PR_TITLE"
+
+      - name: Run tests
+        env:
+          # Safe: secret reference, not hardcoded value
+          API_KEY: ${{ secrets.API_KEY }}
+        run: pytest

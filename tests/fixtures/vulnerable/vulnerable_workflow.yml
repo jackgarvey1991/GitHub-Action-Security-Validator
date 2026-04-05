@@ -1,0 +1,36 @@
+# Test fixture: VULNERABLE workflow - contains multiple security issues
+# Used by GASV test suite
+name: CI (Vulnerable)
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+# GASV-PERM-001: write-all is overpermissive
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # GASV-PIN-001: pinned to mutable tag, not SHA
+      - uses: actions/checkout@v4
+        with:
+          # GASV-TRIG-001 + pwn-request: checking out PR head in pull_request_target
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      # GASV-PIN-001: third-party action on mutable tag
+      - uses: super-linter/super-linter@v5
+
+      # GASV-INJ-001: expression injection via issue title
+      - name: Print issue info
+        run: |
+          echo "Issue: ${{ github.event.issue.title }}"
+          echo "PR branch: ${{ github.head_ref }}"
+
+      # GASV-SEC-001: hardcoded AWS key pattern
+      - name: Deploy
+        env:
+          AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+          DB_PASSWORD: superSecret123!
+        run: ./deploy.sh
