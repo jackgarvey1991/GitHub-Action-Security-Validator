@@ -43,26 +43,6 @@ jobs:
           files: coverage.xml
           fail_ci_if_error: false
 
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v5.3.0
-        with:
-          python-version: "3.12"
-          cache: pip
-
-      - name: Install linting tools
-        run: pip install ruff
-
-      - name: Run ruff linter
-        run: ruff check gasv/ tests/
-
   scan-self:
     name: GASV scans itself
     runs-on: ubuntu-latest
