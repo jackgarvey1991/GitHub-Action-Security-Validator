@@ -62,7 +62,7 @@ jobs:
         run: pip install -e .
 
       - name: Scan own workflows (SARIF output)
-        run: gasv scan .github/workflows/ --format sarif > gasv-results.sarif || true
+        run: gasv scan tests/fixtures/ --format sarif > gasv-results.sarif || true
 
       - name: Upload SARIF to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
