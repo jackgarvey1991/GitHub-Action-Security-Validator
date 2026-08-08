@@ -1,6 +1,3 @@
-"""
-Scanner: loads a workflow YAML file, parses it, and runs all rules.
-"""
 from pathlib import Path
 from typing import List, Dict, Any
 
@@ -23,8 +20,6 @@ RULES = [
 
 
 class Scanner:
-    """Orchestrates YAML parsing and rule execution for a single workflow file."""
-
     def scan_file(self, path: Path) -> List[Dict[str, Any]]:
         try:
             with open(path, "r", encoding="utf-8") as fh:

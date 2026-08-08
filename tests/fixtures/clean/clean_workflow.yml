@@ -1,4 +1,3 @@
-# Test fixture: CLEAN workflow - follows security best practices
 name: CI (Secure)
 
 on:

@@ -1,12 +1,3 @@
-"""
-GASV-TRIG-001: Dangerous workflow triggers that elevate risk.
-
-pull_request_target runs with write permissions in the context of the BASE
-repository, even for PRs from forks. If combined with a checkout of the
-PR head ref, this creates a critical pwn-request vulnerability.
-
-workflow_run triggered from untrusted events inherits elevated context.
-"""
 from typing import List, Dict, Any
 from gasv.rules import BaseRule
 
@@ -15,14 +6,7 @@ class DangerousTriggerRule(BaseRule):
     rule_id = "GASV-TRIG-001"
     severity = "HIGH"
     description = "Workflow uses a trigger that may grant elevated permissions to untrusted code."
-    remediation = (
-        "Review use of 'pull_request_target' carefully:\n"
-        "- Never checkout the PR head ref (github.event.pull_request.head.sha) in a "
-        "pull_request_target workflow unless you fully understand the security implications.\n"
-        "- Prefer 'pull_request' for CI checks on fork PRs (runs with read-only token).\n"
-        "- If pull_request_target is required, avoid running any code from the PR branch.\n"
-        "See: https://securitylab.github.com/research/github-actions-preventing-pwn-requests/"
-    )
+    remediation = "Be careful with pull_request_target as it runs with write permissions. Don't check out or run code from the PR branch."
 
     def check(self, workflow: Dict, filepath: str, raw: str) -> List[Dict[str, Any]]:
         findings = []

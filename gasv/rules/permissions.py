@@ -1,7 +1,3 @@
-"""
-GASV-PERM-001: Overpermissive permissions (write-all or blanket write)
-GASV-PERM-002: Missing top-level permissions block
-"""
 from typing import List, Dict, Any
 from gasv.rules import BaseRule
 
@@ -12,11 +8,7 @@ class OverpermissivePermissionsRule(BaseRule):
     rule_id = "GASV-PERM-001"
     severity = "HIGH"
     description = "Workflow or job grants overly broad write permissions."
-    remediation = (
-        "Apply the principle of least privilege. Replace 'permissions: write-all' with "
-        "explicit per-scope permissions (e.g. contents: read). "
-        "See: https://docs.github.com/en/actions/security-guides/automatic-token-authentication"
-    )
+    remediation = "Set explicit permissions for each scope instead of using write-all — only grant what the job actually needs."
 
     def check(self, workflow: Dict, filepath: str, raw: str) -> List[Dict[str, Any]]:
         findings = []
@@ -63,11 +55,7 @@ class MissingTopLevelPermissionsRule(BaseRule):
     rule_id = "GASV-PERM-002"
     severity = "MEDIUM"
     description = "No top-level permissions block; GITHUB_TOKEN inherits broad default permissions."
-    remediation = (
-        "Add 'permissions: read-all' at the top of the workflow to restrict defaults, "
-        "then grant only the specific write scopes each job needs. "
-        "See: https://docs.github.com/en/actions/security-guides/automatic-token-authentication"
-    )
+    remediation = "Add a permissions block at the top of the workflow to restrict what the token can do by default."
 
     def check(self, workflow: Dict, filepath: str, raw: str) -> List[Dict[str, Any]]:
         if workflow.get("permissions") is None:

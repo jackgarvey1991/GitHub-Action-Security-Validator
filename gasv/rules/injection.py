@@ -1,12 +1,3 @@
-"""
-GASV-INJ-001: GitHub Actions expression injection vulnerability.
-
-Untrusted user-controlled context values (e.g. github.event.issue.title,
-github.head_ref) passed directly into 'run' steps via ${{ }} expressions
-allow attackers to inject arbitrary shell commands.
-
-Reference: Koishybayev et al. (2022), GitHub Security Lab advisory
-"""
 import re
 from typing import List, Dict, Any
 from gasv.rules import BaseRule
@@ -46,14 +37,7 @@ class ExpressionInjectionRule(BaseRule):
         "Untrusted user-controlled GitHub context value interpolated directly into a run step, "
         "enabling expression injection / RCE."
     )
-    remediation = (
-        "Pass the value through an intermediate environment variable instead:\n"
-        "  env:\n"
-        "    TITLE: ${{ github.event.issue.title }}\n"
-        "  run: echo \"$TITLE\"\n"
-        "This prevents the shell from interpreting the value as code. "
-        "See: https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions"
-    )
+    remediation = "Use an env var to pass the value instead of putting it directly in the run command — this stops the shell treating it as code."
 
     def check(self, workflow: Dict, filepath: str, raw: str) -> List[Dict[str, Any]]:
         findings = []

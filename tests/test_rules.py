@@ -1,7 +1,3 @@
-"""
-GASV Test Suite
-Tests each detection rule against known-vulnerable and known-clean fixtures.
-"""
 import pytest
 from pathlib import Path
 from gasv.scanner import Scanner

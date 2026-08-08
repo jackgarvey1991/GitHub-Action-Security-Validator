@@ -1,5 +1,3 @@
-# Test fixture: VULNERABLE workflow - contains multiple security issues
-# Used by GASV test suite
 name: CI (Vulnerable)
 
 on:

@@ -1,7 +1,3 @@
-"""
-GASV - GitHub Actions Security Validator
-CLI entry point
-"""
 import sys
 import json
 from pathlib import Path
